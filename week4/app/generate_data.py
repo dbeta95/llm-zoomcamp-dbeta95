@@ -137,6 +137,8 @@ def generate_live_data():
 
 
 if __name__ == "__main__":
+    import os
+    os.environ["POSTGRES_HOST"] = "localhost"
     print(f"Script started at {datetime.now(tz)}")
     end_time = datetime.now(tz)
     start_time = end_time - timedelta(hours=6)

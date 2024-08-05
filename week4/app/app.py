@@ -68,7 +68,10 @@ def main():
             # Save conversation to database
             print_log("Saving conversation to database")
             save_conversation(st.session_state.conversation_id, user_input, answer_data, course)
+            st.session_state.asked_question_id = st.session_state.conversation_id
             print_log("Conversation saved successfully")
+            st.session_state.conversation_id = str(uuid.uuid4())
+            print_log(f"New conversation started with ID: {st.session_state.conversation_id}")
 
     # Feedback buttons
     col1, col2 = st.columns(2)
@@ -76,13 +79,13 @@ def main():
         if st.button("+1"):
             st.session_state.count += 1
             print_log(f"Positive feedback received. New count: {st.session_state.count}")
-            save_feedback(st.session_state.conversation_id, 1)
+            save_feedback(st.session_state.asked_question_id, 1)
             print_log("Positive feedback saved to database")
     with col2:
         if st.button("-1"):
             st.session_state.count -= 1
             print_log(f"Negative feedback received. New count: {st.session_state.count}")
-            save_feedback(st.session_state.conversation_id, -1)
+            save_feedback(st.session_state.asked_question_id, -1)
             print_log("Negative feedback saved to database")
 
     st.write(f"Current count: {st.session_state.count}")
